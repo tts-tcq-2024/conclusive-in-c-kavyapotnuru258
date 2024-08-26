@@ -37,4 +37,3 @@ TEST(TypeWiseAlertTestSuite, CheckAndAlert) {
     output = testing::internal::GetCapturedStdout();
     EXPECT_NE(output.find("Hi, the temperature is too high"), std::string::npos);  // Check alert message
 }
-
