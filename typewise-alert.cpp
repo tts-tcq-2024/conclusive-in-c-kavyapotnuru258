@@ -113,23 +113,28 @@ void sendToController(BreachType breachType) {
   printf("%x : %x\n", header, breachType);
 }
 
-void sendToEmail(BreachType breachType) {
-  const char* recipient = "a.b@c.com";
-
-  if (breachType == NORMAL) {
-    return; // No need to send an email if the breach type is NORMAL
-  }
-
-  // Print the common recipient information
-  printf("To: %s\n", recipient);
-
-  // Print the specific message based on breachType
-  if (breachType == TOO_LOW) {
+void sendTooLowEmail(const char* recipient) {
+    printf("To: %s\n", recipient);
     printf("Hi, the temperature is too low\n");
-  } else if (breachType == TOO_HIGH) {
-    printf("Hi, the temperature is too high\n");
-  }
 }
+
+void sendTooHighEmail(const char* recipient) {
+    printf("To: %s\n", recipient);
+    printf("Hi, the temperature is too high\n");
+}
+
+void sendToEmail(BreachType breachType) {
+    const char* recipient = "a.b@c.com";
+    
+    // Array of function pointers
+    void (*emailFunctions[])(const char*) = {nullptr, sendTooLowEmail, sendTooHighEmail};
+
+    // Execute the corresponding function if it exists
+    if (emailFunctions[breachType]) {
+        emailFunctions[breachType](recipient);
+    }
+}
+
 
 
 
